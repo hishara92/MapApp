@@ -1,9 +1,15 @@
 package com.example.hishara.mapapp.FindPlace;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -54,10 +60,27 @@ public class FindPlace extends AppCompatActivity {
     }
 
 
+    public static Double longitude;
+    public static Double latitude;
 
     public void onRestClick(){
 
         try{
+
+            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                            if (ActivityCompat.checkSelfPermission(FindPlace.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            longitude = Double.parseDouble(location.getLongitude()+"");
+                            latitude = Double.parseDouble(location.getLatitude()+"");
 
             ivRest=(ImageView)findViewById(R.id.imageRest);
             ivRest.setOnClickListener(
@@ -65,11 +88,12 @@ public class FindPlace extends AppCompatActivity {
 
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(getApplicationContext(), "Loading Result..\n" +
-                                    "Please Wait..!!",Toast.LENGTH_LONG).show();
-                            String lng="79.9003355";
-                            String lat="6.796652";
-                            String msg="geo:"+lat+","+lng+"&radius=5000?q=restaurants";
+//
+//
+//                            Toast.makeText(getApplicationContext(), "Loading Result..\n" +
+//                                    "Please Wait..!!",Toast.LENGTH_LONG).show();
+//
+                            String msg="geo:"+latitude+","+longitude+"&radius=5000?q=restaurants";
                             //Uri gmmIntentUri = Uri.parse(Uri.encode(msg));
                             Uri gmmIntentUri = Uri.parse("geo:6.796652,79.9003355&radius=5000?q=restaurants");
                             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -85,6 +109,8 @@ public class FindPlace extends AppCompatActivity {
 
                         @Override
                         public void onClick(View v) {
+//
+
                             Toast.makeText(getApplicationContext(), "Loading Result..\n" +
                                     "Please Wait..!!",Toast.LENGTH_LONG).show();
                             Uri gmmIntentUri = Uri.parse("geo:6.796652,79.9003355&radius=5000?q=hotels");

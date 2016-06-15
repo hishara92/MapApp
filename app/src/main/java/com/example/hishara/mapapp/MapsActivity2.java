@@ -82,9 +82,11 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         mMap = googleMap;
         //showPlaces();
          //Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        double lt=Double.parseDouble("7.2906");
+        Double lng=Double.parseDouble("80.6337");
+
+        LatLng latLng=new LatLng(lt,lng);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -194,8 +196,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(point).title(
                 "New location"));
 
-        Toast.makeText(getApplicationContext(), point.toString(),
-                Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), point.toString(),
+                //Toast.LENGTH_LONG).show();
 
 
     }
@@ -221,9 +223,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                 //Toast.makeText(MapsActivity2.this, "selected", Toast.LENGTH_LONG).show();
                 LatLng latLng=place.getLatLng();
                 System.out.println(latLng.toString());
-                mMap.addMarker(new MarkerOptions().position(latLng).title("Marker1"));
-                // mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
             }
 
             @Override

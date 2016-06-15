@@ -14,10 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.amigold.fundapter.BindDictionary;
@@ -39,13 +42,14 @@ public class PlaceResult extends AppCompatActivity {
     private ArrayList<TouristPlace> tourList;
     private ListView listView;
     Button btnShow,btnFilter;
+    Spinner sp1,sp2;
+    ArrayAdapter<CharSequence> adapter1,adapter2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_result);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         setView();
 
         try {
@@ -54,6 +58,53 @@ public class PlaceResult extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        sp1=(Spinner)findViewById(R.id.spCatagory);
+        adapter1= ArrayAdapter.createFromResource(this, R.array.places_array2, android.R.layout.simple_spinner_item);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp1.setAdapter(adapter1);
+        sp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(position==0){
+                cat=0;
+                setView();
+            }
+            else{
+                cat=position;
+                setView();
+            }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        sp2=(Spinner)findViewById(R.id.spRadius);
+        adapter2= ArrayAdapter.createFromResource(this, R.array.Radius_array, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp2.setAdapter(adapter2);
+        sp2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    rad=0;
+                    setView();
+                }
+                else{
+                    rad=Integer.parseInt(parent.getItemAtPosition(position)+"");
+                    setView();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     public static ArrayList<String> lang;
@@ -61,6 +112,8 @@ public class PlaceResult extends AppCompatActivity {
     public static ArrayList<String> name;
     public static float num;
     public float num1;
+    public static int rad=0;
+    public static int cat=0;
 
     public void setView() {
         lang = new ArrayList<String>();
@@ -71,7 +124,9 @@ public class PlaceResult extends AppCompatActivity {
             public void processFinish(String s) {
                 //Log.d(LOG,s);
                 tourList = new JsonConverter<TouristPlace>().toArrayList(s, TouristPlace.class);
-                //removeUnWantedResults(tourList, 10.00F);
+
+                removeUnWantedResults(tourList, rad);
+                removeAsCatagory(tourList,cat);
                 BindDictionary<TouristPlace> dict = new BindDictionary<TouristPlace>();
 
 
@@ -219,19 +274,35 @@ public class PlaceResult extends AppCompatActivity {
         Double latitude = Double.parseDouble(location.getLatitude()+"");
 
         for(int x=0;x<tp.size();x++){
-            num = findDistance(Double.parseDouble("6.796652"), Double.parseDouble("79.9003355"), Double.parseDouble(tp.get(x).getLat()), Double.parseDouble(tp.get(x).getLang())) / 1000;
-            if(num>radius){
-                Toast.makeText(PlaceResult.this, "true", Toast.LENGTH_LONG).show();
-                Log.d(LOG, num + "################################");
-                tp.remove(x);
+            //num = findDistance(Double.parseDouble("6.796652"), Double.parseDouble("79.9003355"), Double.parseDouble(tp.get(x).getLat()), Double.parseDouble(tp.get(x).getLang())) / 1000;
+            num = findDistance(latitude, longitude, Double.parseDouble(tp.get(x).getLat()), Double.parseDouble(tp.get(x).getLang())) / 1000;
+                if(radius==0){
+
             }
-//            if(15.0000f>10f){
-//                Toast.makeText(PlaceResult.this, "true", Toast.LENGTH_LONG).show();
-//            }
             else{
-                Toast.makeText(PlaceResult.this, "false", Toast.LENGTH_LONG).show();
+                int retval = Float.compare(num, radius);
+
+                if(retval>0){
+
+                    tp.remove(x);
+                    x-=1;
+                }
             }
 
+
+        }
+    }
+
+    public void removeAsCatagory(ArrayList<TouristPlace> tp,int c){
+        if(c==0){
+            return;
+        }
+        String names[]={"Natural Beauties","Historical Place","Sacred Place"};
+        for(int val=0;val<tp.size();val++){
+            if(!tp.get(val).getCatagory().equals(names[c-1])){
+                tp.remove(val);
+                val-=1;
+            }
         }
     }
 

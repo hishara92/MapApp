@@ -17,6 +17,28 @@
         <item>Sacred Place</item>
 
     </string-array>
+
+    <string-array name="places_array2">
+        <item>None</item>
+        <item>Natural Beauties</item>
+        <item>Historical Place</item>
+        <item>Sacred Place</item>
+
+    </string-array>
+
+
+    <string-array name="Radius_array">
+        <item>None</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>50</item>
+        <item>100</item>
+
+
+
+    </string-array>
     <string name="title_activity_image_upload">ImageUpload</string>
     <string name="title_activity_user_ex">UserEx</string>
 </resources>
