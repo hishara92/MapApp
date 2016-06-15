@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">MapApp</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_new_menu">NewMenu</string>
+    <string name="title_activity_find_place">FindPlace</string>
+    <string name="com.example.hishara.mapapp.NewMenu" />
+    <string name="title_activity_log_in">LogIn</string>
+    <string name="title_activity_place_result">PlaceResult</string>
+    <string name="title_activity_maps2">Map</string>
+    <string name="title_activity_maps3">Map</string>
+    <string name="title_activity_add_new_place">AddNewPlace</string>
+
+    <string-array name="places_array">
+        <item>Natural Beauties</item>
+        <item>Historical Place</item>
+        <item>Sacred Place</item>
+
+    </string-array>
+    <string name="title_activity_image_upload">ImageUpload</string>
+    <string name="title_activity_user_ex">UserEx</string>
+</resources>

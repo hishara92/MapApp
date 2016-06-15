@@ -1,0 +1,55 @@
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:layout_width="156dp"
+            android:layout_height="match_parent"
+            android:id="@+id/TextPlace"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:id="@+id/BtnSearch"
+            android:layout_gravity="right"
+            android:textSize="15dp"
+            android:onClick="onSearch" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="78dp"
+            android:layout_height="wrap_content"
+            android:text="Sat"
+            android:id="@+id/BtnType"
+            android:onClick="onTypeChange"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+
+
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="323dp"
+    android:layout_height="443dp"
+    tools:context="com.example.hishara.mapapp.MapsActivity" />
+
+</LinearLayout>
